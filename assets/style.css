@@ -1,0 +1,136 @@
+/* Reset cơ bản */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+/* Card chung */
+.container {
+    width: 100%;
+    max-width: 700px;
+
+    background: #fff;
+    padding: 30px;
+
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+    text-align: center;
+}
+
+/* Tiêu đề */
+h1, h2 {
+    margin-bottom: 20px;
+}
+
+/* Đoạn văn */
+p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+/* Form */
+form {
+    margin-top: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 15px;
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Nút */
+input[type="submit"],
+.btn {
+    display: inline-block;
+
+    padding: 10px 20px;
+    margin: 5px;
+
+    background: #007bff;
+    color: white;
+
+    border: none;
+    border-radius: 5px;
+
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+.btn:hover {
+    background: #0056b3;
+}
+
+/* Liên kết */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Thông báo lỗi */
+.error {
+    color: red;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Bảng dữ liệu */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+table th {
+    background: #007bff;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Trang rò rỉ dữ liệu */
+.leak-warning {
+    background: #fff3f3;
+    border: 2px solid #dc3545;
+}
+
+.leak-title {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.leak-text {
+    color: #b30000;
+    margin-bottom: 20px;
+}
