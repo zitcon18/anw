@@ -1,172 +1,249 @@
 <?php
 session_start();
 ?>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OWASP Top 10 A02 - Cryptographic Failures</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecureShop</title>
 
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<style>
 
-        body{
-            min-height:100vh;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color:white;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
 
-        .hero{
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            padding:40px;
-        }
+body{
+    background:#f4f6f9;
+}
 
-        .content{
-            max-width:900px;
-            text-align:center;
-        }
+/* HEADER */
+header{
+    background:#0d6efd;
+    color:white;
+    padding:15px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-        h1{
-            font-size:60px;
-            color:#ef4444;
-            margin-bottom:15px;
-        }
+.logo{
+    font-size:26px;
+    font-weight:bold;
+}
 
-        h2{
-            font-size:32px;
-            margin-bottom:25px;
-            font-weight:300;
-        }
+nav{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
 
-        p{
-            font-size:20px;
-            line-height:1.8;
-            color:#e2e8f0;
-        }
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
 
-        .info{
-            margin:35px 0;
-            padding:25px;
-            background:rgba(255,255,255,0.08);
-            border-radius:12px;
-            text-align:left;
-        }
+.user{
+    background:rgba(255,255,255,0.2);
+    padding:8px 14px;
+    border-radius:20px;
+}
 
-        .info ul{
-            margin-top:15px;
-            padding-left:25px;
-        }
+/* HERO */
+.hero{
+    text-align:center;
+    background:white;
+    padding:60px 20px;
+}
 
-        .info li{
-            margin:10px 0;
-        }
+.hero h1{
+    font-size:40px;
+    color:#2c3e50;
+}
 
-        .buttons{
-            margin-top:40px;
-        }
+.hero p{
+    margin-top:10px;
+    color:#666;
+}
 
-        .btn{
-            display:inline-block;
-            padding:15px 35px;
-            margin:10px;
-            text-decoration:none;
-            color:white;
-            font-size:18px;
-            border-radius:8px;
-            transition:.3s;
-        }
+/* PRODUCTS */
+.container{
+    width:1100px;
+    margin:40px auto;
+}
 
-        .register{
-            background:#2563eb;
-        }
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+    gap:20px;
+}
 
-        .login{
-            background:#16a34a;
-        }
+.product{
+    background:white;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    overflow:hidden;
+    transition:.2s;
+}
 
-        .btn:hover{
-            transform:translateY(-3px);
-        }
+.product img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-bottom:1px solid #eee;
+}
 
-        .warning{
-            margin-top:40px;
-            background:#7f1d1d;
-            border-left:6px solid #ef4444;
-            padding:20px;
-            border-radius:10px;
-            text-align:left;
-        }
+.product{
+    transition:0.3s;
+}
 
-        .footer{
-            margin-top:30px;
-            color:#94a3b8;
-            font-size:14px;
-        }
-    </style>
+.product:hover{
+    transform:scale(1.03);
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+.product-body{
+    padding:15px;
+}
+
+.product-title{
+    font-size:18px;
+    font-weight:bold;
+    color:#333;
+}
+
+.product-price{
+    margin-top:8px;
+    color:#0d6efd;
+    font-weight:bold;
+}
+
+.product-desc{
+    margin-top:8px;
+    font-size:14px;
+    color:#666;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:12px;
+    padding:10px 15px;
+    background:#0d6efd;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+}
+
+.btn:hover{
+    background:#084298;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:20px;
+    margin-top:40px;
+    background:#222;
+    color:white;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<div class="hero">
+<header>
 
-    <div class="content">
+<div class="logo">SecureShop</div>
 
-        <h1>🔐 OWASP Top 10 A02</h1>
+<nav>
 
-        <h2>Cryptographic Failures</h2>
+<a href="index.php">Home</a>
 
-        <p>
-            Demo lưu trữ mật khẩu không an toàn và hậu quả khi cơ sở dữ liệu bị rò rỉ.
-            Mô hình thực hành được xây dựng bằng PHP và MySQL.
-        </p>
+<?php if(isset($_SESSION['username'])){ ?>
 
-        <div class="info">
-            <h3>Mục tiêu của bài thực hành</h3>
+<span class="user">👤 <?= htmlspecialchars($_SESSION['username']) ?></span>
+<a href="profile.php">Profile</a>
+<a href="logout.php">Logout</a>
 
-            <ul>
-                <li>Đăng ký tài khoản người dùng.</li>
-                <li>Lưu mật khẩu dạng Plaintext.</li>
-                <li>Đăng nhập hệ thống.</li>
-                <li>Xem dữ liệu bị rò rỉ.</li>
-                <li>Khắc phục bằng password_hash().</li>
-                <li>Xác thực bằng password_verify().</li>
-            </ul>
-        </div>
+<?php } else { ?>
 
-        <div class="buttons">
-            <a href="register.php" class="btn register">
-                Đăng ký
-            </a>
+<a href="register.php">Register</a>
+<a href="login.php">Login</a>
 
-            <a href="login.php" class="btn login">
-                Đăng nhập
-            </a>
-        </div>
+<?php } ?>
 
-        <div class="warning">
-            <strong>⚠ Cảnh báo bảo mật</strong>
-            <br><br>
-            Lưu mật khẩu dưới dạng plaintext là một lỗi nghiêm trọng thuộc
-            OWASP Top 10 A02 – Cryptographic Failures.
-            Nếu cơ sở dữ liệu bị rò rỉ, kẻ tấn công có thể đọc trực tiếp toàn bộ mật khẩu người dùng.
-        </div>
+</nav>
 
-        <div class="footer">
-            Secure Coding Lab | PHP • MySQL • OWASP Top 10
-        </div>
+</header>
 
+<section class="hero">
+
+<h1>Welcome to SecureShop</h1>
+<p>Best digital products & services store</p>
+
+</section>
+
+<div class="container">
+
+<div class="products">
+
+<!-- PRODUCT 1 -->
+<div class="product">
+<img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600" alt="">
+    <div class="product-body">
+        <div class="product-title">USB Security Token</div>
+        <div class="product-price">$29.99</div>
+        <div class="product-desc">Device used for secure authentication.</div>
+        <a href="#" class="btn">Buy Now</a>
     </div>
+</div>
+
+<!-- PRODUCT 2 -->
+<div class="product">
+     <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600" alt="">
+    <div class="product-body">
+        <div class="product-title">Encrypted Storage Drive</div>
+        <div class="product-price">$59.99</div>
+        <div class="product-desc">Hardware encrypted USB drive.</div>
+        <a href="#" class="btn">Buy Now</a>
+    </div>
+</div>
+
+<!-- PRODUCT 3 -->
+<div class="product">
+ <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600" alt="">
+    <div class="product-body">
+        <div class="product-title">VPN Subscription</div>
+        <div class="product-price">$9.99/month</div>
+        <div class="product-desc">Secure your internet connection.</div>
+        <a href="#" class="btn">Buy Now</a>
+    </div>
+</div>
+
+<!-- PRODUCT 4 -->
+<div class="product">
+    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600" alt="">
+    <div class="product-body">
+        <div class="product-title">Password Manager Pro</div>
+        <div class="product-price">$4.99/month</div>
+        <div class="product-desc">Store and manage passwords securely.</div>
+        <a href="#" class="btn">Buy Now</a>
+    </div>
+</div>
 
 </div>
+
+</div>
+
+<footer>
+© 2026 SecureShop - Secure Digital Store 
+</footer>
 
 </body>
 </html>

@@ -5,152 +5,185 @@ if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
-
-$username = $_SESSION['username'];
 ?>
 
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hồ sơ người dùng</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile</title>
 
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<style>
 
-        body{
-            min-height:100vh;
-            background:linear-gradient(135deg,#0f172a,#1e293b);
-            color:white;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
 
-        .container{
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            padding:40px;
-        }
+body{
+    background:#f4f6f9;
+}
 
-        .profile-card{
-            width:100%;
-            max-width:800px;
-            background:rgba(255,255,255,0.08);
-            backdrop-filter:blur(10px);
-            padding:40px;
-            border-radius:15px;
-            text-align:center;
-            box-shadow:0 8px 30px rgba(0,0,0,0.3);
-        }
+header{
+    background:#0d6efd;
+    color:#fff;
+    padding:15px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-        h1{
-            color:#22c55e;
-            margin-bottom:20px;
-            font-size:42px;
-        }
+.logo{
+    font-size:24px;
+    font-weight:bold;
+}
 
-        .welcome{
-            font-size:24px;
-            margin-bottom:15px;
-        }
+nav a{
+    color:#fff;
+    text-decoration:none;
+    margin-left:20px;
+}
 
-        .username{
-            color:#60a5fa;
-            font-weight:bold;
-        }
+.container{
+    width:900px;
+    margin:40px auto;
+}
 
-        .description{
-            color:#cbd5e1;
-            margin-bottom:30px;
-            line-height:1.8;
-        }
+.card{
+    background:#fff;
+    border-radius:10px;
+    padding:30px;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
 
-        .btn{
-            display:inline-block;
-            padding:14px 28px;
-            margin:10px;
-            border-radius:8px;
-            text-decoration:none;
-            color:white;
-            font-weight:bold;
-            transition:0.3s;
-        }
+.avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#0d6efd;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:36px;
+    margin-bottom:20px;
+}
 
-        .btn:hover{
-            transform:translateY(-3px);
-        }
+h2{
+    color:#333;
+}
 
-        .leak{
-            background:#dc2626;
-        }
+.info{
+    margin-top:20px;
+    line-height:2;
+    color:#555;
+}
 
-        .home{
-            background:#2563eb;
-        }
+.actions{
+    margin-top:35px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
 
-        .logout{
-            background:#f59e0b;
-        }
+.btn{
+    text-decoration:none;
+    background:#0d6efd;
+    color:#fff;
+    padding:12px 20px;
+    border-radius:8px;
+    transition:.3s;
+}
 
-        .info{
-            margin-top:30px;
-            padding:20px;
-            background:rgba(255,255,255,0.05);
-            border-left:5px solid #ef4444;
-            border-radius:8px;
-            text-align:left;
-            color:#e2e8f0;
-        }
-    </style>
+.btn:hover{
+    background:#084298;
+}
+
+.btn-danger{
+    background:#dc3545;
+}
+
+.btn-danger:hover{
+    background:#b02a37;
+}
+
+.notice{
+    margin-top:30px;
+    padding:15px;
+    border-left:5px solid orange;
+    background:#fff3cd;
+}
+
+</style>
+
 </head>
+
 <body>
+
+<header>
+
+<div class="logo">SecureShop</div>
+
+<nav>
+    <a href="index.php">Home</a>
+    <a href="logout.php">Logout</a>
+</nav>
+
+</header>
 
 <div class="container">
 
-    <div class="profile-card">
+<div class="card">
 
-        <h1>👤 Hồ sơ người dùng</h1>
+<div class="avatar">
+<?= strtoupper(substr($_SESSION['username'],0,1)); ?>
+</div>
 
-        <p class="welcome">
-            Xin chào <span class="username">
-                <?php echo htmlspecialchars($username); ?>
-            </span>
-        </p>
+<h2>Xin chào, <?= htmlspecialchars($_SESSION['username']); ?>!</h2>
 
-        <p class="description">
-            Đây là trang hồ sơ người dùng.
-            Bạn đã đăng nhập thành công vào hệ thống demo
-            OWASP Top 10 A02 – Cryptographic Failures.
-        </p>
+<div class="info">
 
-        <a href="leak.php" class="btn leak">
-            🔓 Xem dữ liệu bị rò rỉ
-        </a>
+<p><strong>Username:</strong> <?= htmlspecialchars($_SESSION['username']); ?></p>
 
-        <a href="index.php" class="btn home">
-            🏠 Trang chủ
-        </a>
+<p><strong>Role:</strong> Customer</p>
 
-        <a href="logout.php" class="btn logout">
-            🚪 Đăng xuất
-        </a>
+<p><strong>Status:</strong> Active</p>
 
-        <div class="info">
-            <strong>Thông tin bảo mật</strong>
-            <br><br>
-            Chức năng "Xem dữ liệu bị rò rỉ" mô phỏng hậu quả khi mật khẩu
-            được lưu dưới dạng plaintext trong cơ sở dữ liệu.
-            Đây là một ví dụ điển hình của
-            <strong>OWASP Top 10 A02 – Cryptographic Failures</strong>.
-        </div>
+</div>
 
-    </div>
+<div class="actions">
+
+<a class="btn" href="leak.php">
+Database Leak Demo
+</a>
+
+<a class="btn" href="encrypt.php">
+Hardcoded Key Demo
+</a>
+
+<a class="btn btn-danger" href="logout.php">
+Logout
+</a>
+<a href="security-report.php" class="btn">View Security Report</a>
+</div>
+
+<div class="notice">
+
+<b>Demo Security</b><br><br>
+
+Sau khi đăng nhập, bạn có thể:
+
+<ul style="margin-top:10px;margin-left:20px;">
+<li>Xem dữ liệu bị rò rỉ trong cơ sở dữ liệu.</li>
+<li>Thử demo Hardcoded Encryption Key.</li>
+</ul>
+
+</div>
+
+</div>
 
 </div>
 
