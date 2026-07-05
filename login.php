@@ -8,12 +8,15 @@ if(isset($_POST['login']))
     $password = md5($_POST['password']);
 
     $sql = "SELECT * FROM users
-            WHERE username='$username'
-            AND password='$password'";
+            WHERE username= ?
+            AND password=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
 
-    $result = mysqli_query($conn, $sql);
+    $result = $stmt->get_result();
 
-    if(mysqli_num_rows($result) > 0)
+    if ($result->num_rows > 0)
     {
         $_SESSION['username'] = $username;
         header("Location: profile.php");
@@ -25,6 +28,7 @@ if(isset($_POST['login']))
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="vi">

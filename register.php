@@ -1,20 +1,28 @@
 <?php
 include "db.php";
 
-if(isset($_POST['register']))
-{
+if (isset($_POST['register'])) {
+
     $username = $_POST['username'];
     $password = md5($_POST['password']);
 
-    $sql = "INSERT INTO users(username,password)
-            VALUES('$username','$password')";
+    $sql = "INSERT INTO users(username, password) VALUES(?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $username, $password);
 
-    $conn->query($sql);
+    try {
+        $stmt->execute();
+        $msg = "Đăng ký thành công!";
+    } catch (mysqli_sql_exception $e) {
 
-    $msg = "Đăng ký thành công!";
+        if ($e->getCode() == 1062) {
+            $msg = "Tài khoản đã tồn tại!";
+        } else {
+            $msg = "Lỗi: " . $e->getMessage();
+        }
+    }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
