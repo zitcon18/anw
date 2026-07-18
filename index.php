@@ -165,9 +165,9 @@ footer{
 
 <a href="index.php">Home</a>
 
-<?php if(isset($_SESSION['username'])){ ?>
+<?php if(isset($_SESSION['user'])){ ?>
 
-<span class="user">👤 <?= htmlspecialchars($_SESSION['username']) ?></span>
+<span class="user">👤 <?= htmlspecialchars($_SESSION['user']['fullname']) ?></span>
 <a href="profile.php">Profile</a>
 <a href="logout.php">Logout</a>
 

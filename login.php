@@ -16,12 +16,15 @@ if(isset($_POST['login']))
 
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0)
-    {
-        $_SESSION['username'] = $username;
-        header("Location: profile.php");
-        exit();
-    }
+if ($result->num_rows == 1)
+{
+    $user = $result->fetch_assoc();
+
+    $_SESSION['user'] = $user;
+
+    header("Location: profile.php");
+    exit();
+}
     else
     {
         $error = "Sai tên đăng nhập hoặc mật khẩu!";

@@ -3,12 +3,29 @@ include "db.php";
 
 if (isset($_POST['register'])) {
 
-    $username = $_POST['username'];
+    $fullname  = trim($_POST['fullname']);
+    $birthdate = $_POST['birthdate'];
+    $email     = trim($_POST['email']);
+    $username  = trim($_POST['username']);
+
+    // Demo có lỗ hổng (MD5)
     $password = md5($_POST['password']);
 
-    $sql = "INSERT INTO users(username, password) VALUES(?, ?)";
+    // Demo an toàn (bcrypt)
+    // $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO users(fullname, birthdate, email, username, password)
+            VALUES (?, ?, ?, ?, ?)";
+
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param(
+        "sssss",
+        $fullname,
+        $birthdate,
+        $email,
+        $username,
+        $password
+    );
 
     try {
         $stmt->execute();
@@ -16,13 +33,14 @@ if (isset($_POST['register'])) {
     } catch (mysqli_sql_exception $e) {
 
         if ($e->getCode() == 1062) {
-            $msg = "Tài khoản đã tồn tại!";
+            $msg = "Email hoặc tên đăng nhập đã tồn tại!";
         } else {
-            $msg = "Lỗi: " . $e->getMessage();
+            $msg = $e->getMessage();
         }
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,21 +94,41 @@ button{
     ?>
 
     <form method="POST">
-        <input type="text"
-               name="username"
-               placeholder="Tên đăng nhập"
-               required>
 
-        <input type="password"
-               name="password"
-               placeholder="Mật khẩu"
-               required>
+      <input
+      type="text"
+      name="fullname"
+      placeholder="Họ và tên"
+      required>
+ 
+      <input
+      type="date"
+      name="birthdate"
+      required>
 
-        <button name="register">
-            Đăng ký
-        </button>
-    </form>
+      <input
+      type="email"
+      name="email"
+      placeholder="Email"
+      required>
 
+      <input
+      type="text"
+      name="username"
+      placeholder="Tên đăng nhập"
+      required>
+
+      <input
+      type="password"
+      name="password"
+      placeholder="Mật khẩu"
+      required>
+
+      <button name="register">
+      Đăng ký
+      </button>
+
+     </form>
     <br>
 
     <a href="login.php">

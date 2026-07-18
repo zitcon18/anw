@@ -1,10 +1,11 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['user'])) {
     header("Location: login.php");
     exit();
 }
+$user = $_SESSION['user'];
 ?>
 
 <!DOCTYPE html>
@@ -139,21 +140,28 @@ h2{
 <div class="card">
 
 <div class="avatar">
-<?= strtoupper(substr($_SESSION['username'],0,1)); ?>
+<?= strtoupper(substr($_SESSION['fullname'],0,1)); ?>
 </div>
 
-<h2>Xin chào, <?= htmlspecialchars($_SESSION['username']); ?>!</h2>
+<h2>Xin chào, <?= htmlspecialchars($_SESSION['fullname']); ?>!</h2>
 
 <div class="info">
 
-<p><strong>Username:</strong> <?= htmlspecialchars($_SESSION['username']); ?></p>
+<p><strong>Họ và tên:</strong>
+<?= htmlspecialchars($user['fullname']); ?></p>
 
-<p><strong>Role:</strong> Customer</p>
+<p><strong>Ngày sinh:</strong>
+<?= htmlspecialchars($user['birthdate']); ?></p>
 
-<p><strong>Status:</strong> Active</p>
+<p><strong>Email:</strong>
+<?= htmlspecialchars($user['email']); ?></p>
+
+<p><strong>Tên đăng nhập:</strong>
+<?= htmlspecialchars($user['username']); ?></p>
+
+<p><strong>Trạng thái:</strong> Active</p>
 
 </div>
-
 <div class="actions">
 
 <a class="btn" href="leak.php">
