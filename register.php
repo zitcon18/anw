@@ -8,11 +8,31 @@ if (isset($_POST['register'])) {
     $email     = trim($_POST['email']);
     $username  = trim($_POST['username']);
 
-    // Demo có lỗ hổng (MD5)
-    $password = md5($_POST['password']);
+    // Hardcoded Encryption Key (LỖ HỔNG DEMO)
+  //  $key = "A7f9K2mP8xQ4nL5rT1vW6yZ3cH9bJ0dE";
+   //Khac phuc
+    $key = getenv("APP_KEY");
+    $cipher = "AES-256-CBC";
 
+    // Tạo IV ngẫu nhiên
+    $iv = random_bytes(openssl_cipher_iv_length($cipher));
+
+    // Mã hóa email
+    $email = base64_encode(
+    $iv .
+    openssl_encrypt(
+        $email,
+        $cipher,
+        $key,
+        OPENSSL_RAW_DATA,
+        $iv
+    )
+);
+
+    // Demo có lỗ hổng (MD5)
+//    $password = md5($_POST['password']);
     // Demo an toàn (bcrypt)
-    // $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     $sql = "INSERT INTO users(fullname, birthdate, email, username, password)
             VALUES (?, ?, ?, ?, ?)";

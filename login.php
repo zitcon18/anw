@@ -2,36 +2,57 @@
 include "db.php";
 session_start();
 
-if(isset($_POST['login']))
-{
-    $username = $_POST['username'];
-    $password = md5($_POST['password']);
+if (isset($_POST['login'])) {
 
-    $sql = "SELECT * FROM users
-            WHERE username= ?
-            AND password=?";
+    $username = trim($_POST['username']);
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM users WHERE username = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
 
     $result = $stmt->get_result();
 
-if ($result->num_rows == 1)
-{
-    $user = $result->fetch_assoc();
+    if ($result->num_rows == 1) {
 
-    $_SESSION['user'] = $user;
+        $user = $result->fetch_assoc();
+	//demo brypt
+        if (password_verify($password, $user['password'])) {
 
-    header("Location: profile.php");
-    exit();
-}
-    else
-    {
+            $_SESSION['user'] = $user;
+
+            header("Location: profile.php");
+            exit();
+
+        } else {
+
+            $error = "Sai tên đăng nhập hoặc mật khẩu!";
+
+        }
+
+       //demo MD5
+/*       $password = md5($password);
+       if ($password == $user['password']) {
+
+            $_SESSION['user'] = $user;
+            header("Location: profile.php");
+            exit();
+
+        } else {
+
+            $error = "Sai tên đăng nhập hoặc mật khẩu!";
+
+    }
+
+*/
+    } else {
+
         $error = "Sai tên đăng nhập hoặc mật khẩu!";
+
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="vi">

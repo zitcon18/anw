@@ -168,7 +168,7 @@ h2{
 Database Leak Demo
 </a>
 
-<a class="btn" href="encrypt.php">
+<a class="btn" href="decrypt.php">
 Hardcoded Key Demo
 </a>
 
@@ -186,7 +186,7 @@ Sau khi đăng nhập, bạn có thể:
 
 <ul style="margin-top:10px;margin-left:20px;">
 <li>Xem dữ liệu bị rò rỉ trong cơ sở dữ liệu.</li>
-<li>Thử demo Hardcoded Encryption Key.</li>
+<li>Demo Hardcoded Encryption Key.</li>
 </ul>
 
 </div>

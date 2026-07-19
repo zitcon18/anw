@@ -1,56 +1,63 @@
 <?php
 
-$key = "0123456789abcdef0123456789abcdef"; // Hardcoded Key
-
 $result = "";
 
-if (isset($_POST['decrypt'])) {
+if(isset($_POST['decrypt'])){
 
-    $cipher = base64_decode(trim($_POST['cipher']));
-    $iv = base64_decode(trim($_POST['iv']));
+    $key = trim($_POST['key']);
+
+    $cipher = "AES-256-CBC";
+
+    $data = base64_decode(trim($_POST['cipher']));
+
+    $iv = substr($data,0,16);
+
+    $ciphertext = substr($data,16);
 
     $result = openssl_decrypt(
+        $ciphertext,
         $cipher,
-        "AES-256-CBC",
         $key,
         OPENSSL_RAW_DATA,
         $iv
     );
 
-    if ($result === false) {
-        $result = "Giải mã thất bại!";
+    if($result===false){
+        $result="Sai Key hoặc dữ liệu không hợp lệ!";
     }
+
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
+
 <meta charset="UTF-8">
-<title>Decrypt Demo</title>
+
+<title>Hardcoded Encryption Key Demo</title>
 
 <style>
 
 body{
-    background:#f5f5f5;
+    background:#f2f2f2;
     font-family:Arial;
 }
 
 .card{
-    width:700px;
+    width:750px;
     margin:40px auto;
     background:white;
     padding:30px;
     border-radius:10px;
-    box-shadow:0 0 15px rgba(0,0,0,.15);
+    box-shadow:0 0 15px rgba(0,0,0,.2);
 }
 
 textarea,input{
     width:100%;
     padding:10px;
     margin:10px 0;
-    border-radius:6px;
-    border:1px solid #ccc;
     box-sizing:border-box;
 }
 
@@ -60,15 +67,20 @@ button{
     background:#007bff;
     color:white;
     border:none;
-    border-radius:6px;
-    cursor:pointer;
 }
 
 .result{
     margin-top:20px;
+    background:#d4edda;
     padding:15px;
-    background:#e8f5e9;
     border-left:5px solid green;
+}
+
+.alert{
+    background:#ffe8e8;
+    padding:15px;
+    border-left:5px solid red;
+    margin-bottom:20px;
 }
 
 </style>
@@ -79,38 +91,56 @@ button{
 
 <div class="card">
 
-<h2>Hardcoded Encryption Key - Decrypt</h2>
+<h2>Demo Hardcoded Encryption Key</h2>
 
 <form method="post">
 
+<label>Encryption Key</label>
+
+<input
+type="text"
+name="key"
+placeholder="Nhập Key lấy được từ source code..."
+required>
+
 <label>Ciphertext (Base64)</label>
 
-<textarea name="cipher" rows="5"></textarea>
-
-<label>IV (Base64)</label>
-
-<input type="text" name="iv">
+<textarea
+name="cipher"
+rows="5"
+placeholder="Paste Ciphertext..."
+required></textarea>
 
 <button name="decrypt">
-Decrypt
+
+Giải mã
+
 </button>
 
 </form>
 
 <?php
+
 if($result!=""){
+
 ?>
+
 <div class="result">
 
-<b>Plaintext:</b><br>
+<h3>Kết quả</h3>
 
 <?= htmlspecialchars($result) ?>
 
 </div>
 
-<?php } ?>
+<?php
+
+}
+
+?>
 
 </div>
 
 </body>
+
 </html>
