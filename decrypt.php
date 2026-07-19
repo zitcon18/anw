@@ -10,9 +10,12 @@ if(isset($_POST['decrypt'])){
 
     $data = base64_decode(trim($_POST['cipher']));
 
-    $iv = substr($data,0,16);
+    $ivLength = openssl_cipher_iv_length($cipher);
 
-    $ciphertext = substr($data,16);
+    $iv = substr($data, 0, $ivLength);
+
+    $ciphertext = substr($data, $ivLength);
+
 
     $result = openssl_decrypt(
         $ciphertext,

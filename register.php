@@ -7,41 +7,56 @@ if (isset($_POST['register'])) {
     $birthdate = $_POST['birthdate'];
     $email     = trim($_POST['email']);
     $username  = trim($_POST['username']);
-
+    $phone = trim($_POST['phone']);
+    $citizen_id = trim($_POST['citizen_id']);
     // Hardcoded Encryption Key (LỖ HỔNG DEMO)
-  //  $key = "A7f9K2mP8xQ4nL5rT1vW6yZ3cH9bJ0dE";
+    $key = "A7f9K2mP8xQ4nL5rT1vW6yZ3cH9bJ0dE";
    //Khac phuc
-    $key = getenv("APP_KEY");
+  //  $key = getenv("APP_KEY");
     $cipher = "AES-256-CBC";
 
     // Tạo IV ngẫu nhiên
-    $iv = random_bytes(openssl_cipher_iv_length($cipher));
+    $ivPhone = random_bytes(openssl_cipher_iv_length($cipher));
 
-    // Mã hóa email
-    $email = base64_encode(
-    $iv .
-    openssl_encrypt(
-        $email,
-        $cipher,
-        $key,
-        OPENSSL_RAW_DATA,
-        $iv
-    )
-);
+    $phone = base64_encode(
+        $ivPhone .
+          openssl_encrypt(
+              $phone,
+              $cipher,
+              $key,
+              OPENSSL_RAW_DATA,
+              $ivPhone
+           )
+     );
+    $ivCitizen = random_bytes(openssl_cipher_iv_length($cipher));
+
+        $citizen_id = base64_encode(
+            $ivCitizen .
+              openssl_encrypt(
+              $citizen_id,
+              $cipher,
+              $key,
+              OPENSSL_RAW_DATA,
+              $ivCitizen
+        )
+     );
+
 
     // Demo có lỗ hổng (MD5)
 //    $password = md5($_POST['password']);
     // Demo an toàn (bcrypt)
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO users(fullname, birthdate, email, username, password)
-            VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO users(fullname, birthdate,phone,citizen_id, email, username, password)
+            VALUES (?, ?, ?, ?, ?,?,?)";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param(
-        "sssss",
+        "sssssss",
         $fullname,
         $birthdate,
+        $phone,
+        $citizen_id,
         $email,
         $username,
         $password
@@ -126,6 +141,17 @@ button{
       name="birthdate"
       required>
 
+<input
+    type="text"
+    name="phone"
+    placeholder="Số điện thoại"
+    required>
+
+<input
+    type="text"
+    name="citizen_id"
+    placeholder="Số CCCD "
+    required>
       <input
       type="email"
       name="email"
